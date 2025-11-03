@@ -131,4 +131,18 @@ export default [
       },
     },
   },
+
+  // Cypress 전용
+  {
+    files: ['cypress/**/*.{cy,spec}.ts', 'cypress/**/*.ts'],
+    plugins: { cypress },
+    ...cypress.configs.recommended,
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        cy: 'readonly',
+        Cypress: 'readonly',
+      },
+    },
+  },
 ];
