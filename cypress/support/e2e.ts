@@ -16,8 +16,47 @@
 // Import commands.js using ES2015 syntax:
 import './commands';
 
+const API_BASE_URL = Cypress.env('apiBaseUrl');
+
+// Cypress 테스트 데이터베이스 초기화 함수
+const resetDatabase = () => {
+  cy.request('GET', `${API_BASE_URL}/api/events`).then((response) => {
+    const events = response.body.events || [];
+
+    // 각 이벤트를 개별적으로 삭제
+    events.forEach((event: any) => {
+      cy.request('DELETE', `${API_BASE_URL}/api/events/${event.id}`);
+    });
+  });
+};
+
 beforeEach(() => {
-  // 공통 초기화가 필요하면 여기서
-  // ex) localStorage 초기화, 쿠키 정리 등
-  // cy.clearCookies()
+  resetDatabase();
 });
+
+Cypress.Commands.add('addEvent' as any, (eventData: any) => {
+  return cy.request('POST', `${API_BASE_URL}/api/events`, eventData);
+});
+
+Cypress.Commands.add('addEvents' as any, (events: any[]) => {
+  return cy.request('POST', `${API_BASE_URL}/api/events-list`, { events });
+});
+
+Cypress.Commands.add('updateEvent' as any, (eventId: string, eventData: any) => {
+  return cy.request('PUT', `${API_BASE_URL}/api/events/${eventId}`, eventData);
+});
+
+Cypress.Commands.add('deleteEvent' as any, (eventId: string) => {
+  return cy.request('DELETE', `${API_BASE_URL}/api/events/${eventId}`);
+});
+
+declare global {
+  namespace Cypress {
+    interface Chainable<Subject = any> {
+      addEvent(eventData: any): Chainable<any>;
+      addEvents(events: any[]): Chainable<any>;
+      updateEvent(eventId: string, eventData: any): Chainable<any>;
+      deleteEvent(eventId: string): Chainable<any>;
+    }
+  }
+}
