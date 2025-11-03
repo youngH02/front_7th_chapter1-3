@@ -7,7 +7,7 @@ import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import storybookPlugin from 'eslint-plugin-storybook';
-import vitestPlugin from 'eslint-plugin-vitest';
+import vitest from '@vitest/eslint-plugin';
 import globals from 'globals';
 
 export default [
@@ -108,11 +108,13 @@ export default [
       './src/setupTests.ts',
       './src/__tests__/utils.ts',
     ],
+    ...vitest.configs.recommended,
     plugins: {
-      vitest: vitestPlugin,
+      ...(vitest.configs.recommended.plugins ?? {}),
+      vitest: vitest,
     },
     rules: {
-      ...vitestPlugin.configs.recommended.rules,
+      ...(vitest.configs.recommended.rules ?? {}),
       'vitest/expect-expect': 'off',
     },
     languageOptions: {
