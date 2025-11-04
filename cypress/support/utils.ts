@@ -39,8 +39,10 @@ export const saveSchedule = (form: EventForm) => {
 
   // 알림 시간 설정
   if (notificationTime > 0) {
-    cy.get('#notification').clear();
-    cy.get('#notification').type(String(notificationTime));
+    cy.get('#notification').scrollIntoView().click();
+    cy.get('[role="listbox"]').within(() => {
+      cy.get(`[data-value="${notificationTime}"]`).click();
+    });
   }
 
   if (repeat.type !== 'none') {
