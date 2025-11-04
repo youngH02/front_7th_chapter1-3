@@ -46,6 +46,8 @@ describe('기본 일정 관리 워크플로우', () => {
         description: '이번주 팀 회의입니다.',
         location: '회의실 A',
         category: '업무',
+        repeat: { type: 'none', interval: 0 },
+        notificationTime: 0,
       });
 
       // 뷰 선택
@@ -79,6 +81,8 @@ describe('기본 일정 관리 워크플로우', () => {
         description: '이번달 팀 회의입니다.',
         location: '회의실 A',
         category: '업무',
+        repeat: { type: 'none', interval: 0 },
+        notificationTime: 0,
       });
 
       cy.get('[data-testid="month-view"]').scrollIntoView();
@@ -112,6 +116,8 @@ describe('기본 일정 관리 워크플로우', () => {
         description: '프로젝트 진행 상황 논의',
         location: '회의실 A',
         category: '업무',
+        repeat: { type: 'none', interval: 0 },
+        notificationTime: 0,
       });
 
       cy.get('[data-testid="event-list"]').scrollIntoView();
@@ -136,6 +142,8 @@ describe('기본 일정 관리 워크플로우', () => {
         description: '수정 전 설명',
         location: '수정 전 위치',
         category: '업무',
+        repeat: { type: 'none', interval: 0 },
+        notificationTime: 0,
       });
 
       cy.wait(1000); // 일정 생성 대기
@@ -178,6 +186,8 @@ describe('기본 일정 관리 워크플로우', () => {
         description: '삭제될 일정',
         location: '삭제될 위치',
         category: '업무',
+        repeat: { type: 'none', interval: 0 },
+        notificationTime: 0,
       });
 
       cy.wait(1000); // 일정 생성 대기

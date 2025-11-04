@@ -1,20 +1,17 @@
-export interface SaveScheduleForm {
-  title: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  description: string;
-  location: string;
-  category: string;
-  repeat?: {
-    type: string;
-    interval: number;
-    endDate?: string;
-  };
-}
+import { EventForm } from '../../src/types';
 
-export const saveSchedule = (form: SaveScheduleForm) => {
-  const { title, date, startTime, endTime, location, description, category, repeat } = form;
+export const saveSchedule = (form: EventForm) => {
+  const {
+    title,
+    date,
+    startTime,
+    endTime,
+    location,
+    description,
+    category,
+    notificationTime,
+    repeat,
+  } = form;
 
   cy.get('#title').clear();
   cy.get('#title').type(title);
@@ -40,24 +37,27 @@ export const saveSchedule = (form: SaveScheduleForm) => {
     cy.get(`[aria-label="${category}-option"]`).click();
   });
 
-  if (repeat) {
+  // 알림 시간 설정
+  if (notificationTime > 0) {
+    cy.get('#notification').clear();
+    cy.get('#notification').type(String(notificationTime));
+  }
+
+  if (repeat.type !== 'none') {
     // 반복 일정 체크박스
     cy.get('input[type="checkbox"]').first().check();
     cy.wait(500);
 
-    cy.get('body').then(($body) => {
-      cy.contains('반복 유형').parent().find('select, [role="combobox"]').click();
-      cy.contains(`${repeat.type}`).click();
-    });
+    cy.get('[aria-label="반복 유형"]').click();
+    cy.get(`[aria-label="${repeat.type}-option"]`).click();
 
-    cy.get('body').then(($body) => {
-      cy.get('#repeat-interval').clear();
-      cy.get('#repeat-interval').type(String(repeat.interval));
-    });
+    cy.get('#repeat-interval').click(); 
+    cy.get('#repeat-interval').type('{selectall}'); 
+    cy.get('#repeat-interval').type(String(repeat.interval), { delay: 200 });
 
-    cy.get('body').then(($body) => {
+    if (repeat.endDate) {
       cy.get('#repeat-end-date').type(repeat.endDate);
-    });
+    }
   }
 
   cy.get('button').contains('일정 추가').first().scrollIntoView();
