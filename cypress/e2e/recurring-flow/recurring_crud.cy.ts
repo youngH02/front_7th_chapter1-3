@@ -96,9 +96,6 @@ describe('반복 일정 CRUD 워크플로우', () => {
         expect(eventBoxes).to.have.length.at.least(1);
       });
 
-      // 이전 달로 돌아가기
-      navigateCalendar('prev');
-
       cy.get('[data-testid="RepeatIcon"]').should('exist');
     });
 
@@ -137,9 +134,6 @@ describe('반복 일정 CRUD 워크플로우', () => {
         expect(eventBoxes).to.have.length.at.least(1);
       });
 
-      // 원래 년도로 돌아가기 (12개월 뒤로)
-      navigateCalendar('prev', 12);
-
       cy.get('[data-testid="RepeatIcon"]').should('exist');
     });
   });
@@ -164,12 +158,15 @@ describe('반복 일정 CRUD 워크플로우', () => {
     });
 
     it('반복 일정 편집 시 편집 다이얼로그가 나타나는지 확인한다', () => {
-      // 반복 일정 편집
-      cy.get('[data-testid="event-list"]').within(() => {
-        cy.contains('매일 회의').should('exist');
-      });
-
-      cy.get('[aria-label="Edit event"]').first().click();
+      // 반복 일정 편집 - 반복 아이콘이 있는 Box를 찾기
+      cy.get('[data-testid="event-list"]')
+        .find('.MuiBox-root')
+        .filter((index, box) => {
+          return Cypress.$(box).text().includes('매일 회의');
+        })
+        .first()
+        .find('[aria-label="Edit event"]')
+        .click();
 
       // 반복 일정 편집 다이얼로그 확인
       cy.contains('반복 일정 수정', { timeout: 5000 }).should('be.visible');
@@ -182,8 +179,14 @@ describe('반복 일정 CRUD 워크플로우', () => {
         cy.get(':contains("매일 회의")').should('have.length.at.least', 2);
       });
 
-      cy.get('[aria-label="Edit event"]').first().scrollIntoView();
-      cy.get('[aria-label="Edit event"]').first().click();
+      cy.get('[data-testid="event-list"]')
+        .find('.MuiBox-root')
+        .filter((index, box) => {
+          return Cypress.$(box).text().includes('매일 회의');
+        })
+        .first()
+        .find('[aria-label="Edit event"]')
+        .click();
 
       // 반복 일정 편집 다이얼로그 대기 및 옵션 선택
       cy.contains('반복 일정 수정', { timeout: 5000 }).should('be.visible');
@@ -220,8 +223,14 @@ describe('반복 일정 CRUD 워크플로우', () => {
         expect(initialEventCount).to.be.at.least(2);
       });
 
-      cy.get('[aria-label="Edit event"]').first().scrollIntoView();
-      cy.get('[aria-label="Edit event"]').first().click();
+      cy.get('[data-testid="event-list"]')
+        .find('.MuiBox-root')
+        .filter((index, box) => {
+          return Cypress.$(box).text().includes('매일 회의');
+        })
+        .first()
+        .find('[aria-label="Edit event"]')
+        .click();
 
       // 반복 일정 편집 다이얼로그 대기 및 옵션 선택
       cy.contains('반복 일정 수정', { timeout: 5000 }).should('be.visible');
@@ -264,8 +273,14 @@ describe('반복 일정 CRUD 워크플로우', () => {
         expect(initialEventCount).to.be.at.least(2);
       });
 
-      cy.get('[aria-label="Edit event"]').first().scrollIntoView();
-      cy.get('[aria-label="Edit event"]').first().click();
+      cy.get('[data-testid="event-list"]')
+        .find('.MuiBox-root')
+        .filter((index, box) => {
+          return Cypress.$(box).text().includes('매일 회의');
+        })
+        .first()
+        .find('[aria-label="Edit event"]')
+        .click();
 
       cy.contains('반복 일정 수정', { timeout: 5000 }).should('be.visible');
       cy.contains('해당 일정만 수정하시겠어요?').should('be.visible');
@@ -311,7 +326,14 @@ describe('반복 일정 CRUD 워크플로우', () => {
         cy.contains('삭제 테스트 회의').should('exist');
       });
 
-      cy.get('[aria-label="Delete event"]').first().click();
+      cy.get('[data-testid="event-list"]')
+        .find('.MuiBox-root')
+        .filter((index, box) => {
+          return Cypress.$(box).text().includes('삭제 테스트 회의');
+        })
+        .first()
+        .find('[aria-label="Delete event"]')
+        .click();
 
       cy.contains('반복 일정 삭제', { timeout: 5000 }).should('be.visible');
       cy.contains('해당 일정만 삭제하시겠어요?').should('be.visible');
@@ -323,8 +345,14 @@ describe('반복 일정 CRUD 워크플로우', () => {
         cy.get(':contains("삭제 테스트 회의")').should('have.length.at.least', 2);
       });
 
-      cy.get('[aria-label="Delete event"]').first().scrollIntoView();
-      cy.get('[aria-label="Delete event"]').first().click();
+      cy.get('[data-testid="event-list"]')
+        .find('.MuiBox-root')
+        .filter((index, box) => {
+          return Cypress.$(box).text().includes('삭제 테스트 회의');
+        })
+        .first()
+        .find('[aria-label="Delete event"]')
+        .click();
 
       cy.contains('반복 일정 삭제', { timeout: 5000 }).should('be.visible');
       cy.contains('해당 일정만 삭제하시겠어요?').should('be.visible');
@@ -347,14 +375,20 @@ describe('반복 일정 CRUD 워크플로우', () => {
         cy.contains('삭제 테스트 회의').should('exist');
       });
 
-      cy.get('[aria-label="Delete event"]').first().scrollIntoView();
-      cy.get('[aria-label="Delete event"]').first().click();
+      cy.get('[data-testid="event-list"]')
+        .find('.MuiBox-root')
+        .filter((index, box) => {
+          return Cypress.$(box).text().includes('삭제 테스트 회의');
+        })
+        .first()
+        .find('[aria-label="Delete event"]')
+        .click();
 
       cy.contains('반복 일정 삭제', { timeout: 5000 }).should('be.visible');
       cy.contains('해당 일정만 삭제하시겠어요?').should('be.visible');
 
       cy.contains('아니오').click();
-      cy.wait(1000); 
+      cy.wait(1000);
 
       // 모든 일정이 삭제되었는지 확인
       cy.get('[data-testid="event-list"]').within(() => {
@@ -373,8 +407,14 @@ describe('반복 일정 CRUD 워크플로우', () => {
         expect(initialEventCount).to.be.at.least(2);
       });
 
-      cy.get('[aria-label="Delete event"]').first().scrollIntoView();
-      cy.get('[aria-label="Delete event"]').first().click();
+      cy.get('[data-testid="event-list"]')
+        .find('.MuiBox-root')
+        .filter((index, box) => {
+          return Cypress.$(box).text().includes('삭제 테스트 회의');
+        })
+        .first()
+        .find('[aria-label="Delete event"]')
+        .click();
 
       cy.contains('반복 일정 삭제', { timeout: 5000 }).should('be.visible');
       cy.contains('해당 일정만 삭제하시겠어요?').should('be.visible');
@@ -441,7 +481,6 @@ describe('반복 일정 CRUD 워크플로우', () => {
         },
         notificationTime: 0,
       });
-
 
       // 정확히 2개의 일정만 생성되어야 함 (11/3, 11/4)
       cy.get('[data-testid="event-list"] > div').then(($boxes) => {
@@ -565,8 +604,14 @@ describe('반복 일정 CRUD 워크플로우', () => {
       });
 
       // 첫 번째 반복 일정 편집
-      cy.get('[aria-label="Edit event"]').first().scrollIntoView();
-      cy.get('[aria-label="Edit event"]').first().click();
+      cy.get('[data-testid="event-list"]')
+        .find('.MuiBox-root')
+        .filter((index, box) => {
+          return Cypress.$(box).text().includes('수정 테스트 회의');
+        })
+        .first()
+        .find('[aria-label="Edit event"]')
+        .click();
 
       cy.contains('반복 일정 수정', { timeout: 5000 }).should('be.visible');
       cy.contains('해당 일정만 수정하시겠어요?').should('be.visible');

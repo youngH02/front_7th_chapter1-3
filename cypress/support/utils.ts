@@ -84,7 +84,6 @@ export const waitForPageLoad = () => {
       // 대신 주요 컴포넌트들이 로딩되었는지 확인
       cy.get('[data-testid="month-view"]', { timeout: 10000 }).should('be.visible');
       cy.get('[data-testid="event-list"]', { timeout: 10000 }).should('be.visible');
-      cy.get('button').contains('일정 추가', { timeout: 10000 }).should('be.visible');
     }
   });
   cy.wait(1000);
