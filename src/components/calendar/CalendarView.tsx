@@ -12,6 +12,7 @@ interface IProps {
   currentDate: Date;
   filteredEvents: Event[];
   notifiedEvents: string[];
+  onEventMove: (event: Event, date: Date) => void;
 }
 
 const CalendarView: FC<IProps> = ({
@@ -21,6 +22,7 @@ const CalendarView: FC<IProps> = ({
   filteredEvents,
   notifiedEvents,
   onNavigate,
+  onEventMove,
 }) => {
   return (
     <>
@@ -53,6 +55,7 @@ const CalendarView: FC<IProps> = ({
           currentDate={currentDate}
           filteredEvents={filteredEvents}
           notifiedEvents={notifiedEvents}
+          onEventMove={onEventMove}
         />
       )}
       {view === 'month' && (
@@ -60,6 +63,7 @@ const CalendarView: FC<IProps> = ({
           currentDate={currentDate}
           filteredEvents={filteredEvents}
           notifiedEvents={notifiedEvents}
+          onEventMove={onEventMove}
         />
       )}
     </>

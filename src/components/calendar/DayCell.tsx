@@ -1,8 +1,9 @@
-import { Notifications, Repeat } from '@mui/icons-material';
-import { Box, Stack, TableCell, Tooltip, Typography } from '@mui/material';
+import { useDroppable } from '@dnd-kit/core';
+import { TableCell, Typography } from '@mui/material';
 import { type FC } from 'react';
 
 import type { Event } from '../../types';
+import EventDayInCell from './EventDay';
 
 interface DayCellProps {
   date: Date | null;
@@ -10,16 +11,8 @@ interface DayCellProps {
   events: Event[];
   notifiedEvents: string[];
   holiday?: string;
+  droppableId: string;
 }
-
-const repeatTypeLabelMap: Record<string, string> = {
-  daily: '일',
-  weekly: '주',
-  monthly: '월',
-  yearly: '년',
-};
-
-const getRepeatTypeLabel = (type: string): string => repeatTypeLabelMap[type] ?? '';
 
 const baseCellSx = {
   height: '120px',
@@ -30,16 +23,42 @@ const baseCellSx = {
   overflow: 'hidden',
 } as const;
 
-export const DayCell: FC<DayCellProps> = ({ date, view, events, notifiedEvents, holiday }) => {
+export const DayCell: FC<DayCellProps> = ({
+  date,
+  view,
+  events,
+  notifiedEvents,
+  holiday,
+  droppableId,
+}) => {
+  const { isOver, setNodeRef } = useDroppable({
+    id: droppableId,
+    data: { date },
+    disabled: !date,
+  });
+
   if (!date) {
-    return <TableCell sx={baseCellSx} />;
+    return <TableCell ref={setNodeRef} sx={baseCellSx} />;
   }
 
   const isMonthView = view === 'month';
   const dayNumber = date.getDate();
 
   return (
-    <TableCell sx={{ ...baseCellSx, ...(isMonthView ? { position: 'relative' } : {}) }}>
+    <TableCell
+      ref={setNodeRef}
+      data-testid={`calendar-cell-${date.toISOString().split('T')[0]}`}
+      sx={{
+        ...baseCellSx,
+        ...(isMonthView ? { position: 'relative' } : {}),
+        ...(isOver
+          ? {
+              outline: '2px solid #1976d2',
+              outlineOffset: -1,
+            }
+          : {}),
+      }}
+    >
       <Typography variant="body2" fontWeight="bold">
         {dayNumber}
       </Typography>
@@ -55,36 +74,12 @@ export const DayCell: FC<DayCellProps> = ({ date, view, events, notifiedEvents, 
         const isRepeating = event.repeat.type !== 'none';
 
         return (
-          <Box
+          <EventDayInCell
             key={event.id}
-            sx={{
-              p: 0.5,
-              my: 0.5,
-              borderRadius: 1,
-              minHeight: '18px',
-              width: '100%',
-              overflow: 'hidden',
-              backgroundColor: isNotified ? '#ffebee' : '#f5f5f5',
-              fontWeight: isNotified ? 'bold' : 'normal',
-              color: isNotified ? '#d32f2f' : 'inherit',
-            }}
-          >
-            <Stack direction="row" spacing={1} alignItems="center">
-              {isNotified && <Notifications fontSize="small" />}
-              {isRepeating && (
-                <Tooltip
-                  title={`${event.repeat.interval}${getRepeatTypeLabel(event.repeat.type)}마다 반복${
-                    event.repeat.endDate ? ` (종료: ${event.repeat.endDate})` : ''
-                  }`}
-                >
-                  <Repeat fontSize="small" />
-                </Tooltip>
-              )}
-              <Typography variant="caption" noWrap sx={{ fontSize: '0.75rem', lineHeight: 1.2 }}>
-                {event.title}
-              </Typography>
-            </Stack>
-          </Box>
+            event={event}
+            isNotified={isNotified}
+            isRepeating={isRepeating}
+          />
         );
       })}
     </TableCell>

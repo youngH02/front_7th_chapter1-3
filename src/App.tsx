@@ -28,6 +28,7 @@ import { useSearch } from './hooks/useSearch.ts';
 import { Event, EventForm } from './types.ts';
 import { findOverlappingEvents } from './utils/eventOverlap.ts';
 import EventList from './components/eventList/EventList.tsx';
+import { formatDate } from './utils/dateUtils.ts';
 
 function App() {
   const {
@@ -63,10 +64,11 @@ function App() {
     editEvent,
   } = useEventForm();
 
-  const { events, saveEvent, deleteEvent, createRepeatEvent, fetchEvents } = useEventOperations(
-    Boolean(editingEvent),
-    () => setEditingEvent(null)
-  );
+  const { events, saveEvent, deleteEvent, createRepeatEvent, fetchEvents, moveEvent } =
+    useEventOperations(
+      Boolean(editingEvent),
+      () => setEditingEvent(null)
+    );
 
   const { handleRecurringEdit, handleRecurringDelete } = useRecurringEventOperations(
     events,
@@ -213,6 +215,29 @@ function App() {
     resetForm();
   };
 
+  const handleMoveEvent = async (eventToMove: Event, targetDate: Date) => {
+    const originalDate = new Date(eventToMove.date);
+    if (originalDate.toDateString() === targetDate.toDateString()) {
+      return;
+    }
+
+    const repeat =
+      eventToMove.repeat.type === 'none'
+        ? eventToMove.repeat
+        : {
+            type: 'none' as const,
+            interval: 0,
+          };
+
+    const updatedEvent: Event = {
+      ...eventToMove,
+      date: formatDate(targetDate),
+      repeat,
+    };
+
+    await moveEvent(updatedEvent);
+  };
+
   return (
     <Box sx={{ width: '100%', height: '100vh', margin: 'auto', p: 5 }}>
       <Stack direction="row" spacing={6} sx={{ height: '100%' }}>
@@ -251,11 +276,12 @@ function App() {
           <CalendarView
             view={view}
             onViewChange={setView}
-            currentDate={currentDate}
-            filteredEvents={filteredEvents}
-            notifiedEvents={notifiedEvents}
-            onNavigate={navigate}
-          />
+          currentDate={currentDate}
+          filteredEvents={filteredEvents}
+          notifiedEvents={notifiedEvents}
+          onNavigate={navigate}
+          onEventMove={handleMoveEvent}
+        />
         </Stack>
 
         <EventList

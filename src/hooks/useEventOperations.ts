@@ -17,6 +17,7 @@ const SUCCESS_MESSAGES = {
   EVENT_UPDATED: '일정이 수정되었습니다',
   EVENT_DELETED: '일정이 삭제되었습니다',
   EVENTS_LOADED: '일정 로딩 완료!',
+  EVENT_MOVED: '일정이 이동되었습니다',
 } as const;
 
 export const useEventOperations = (editing: boolean, onSave?: () => void) => {
@@ -117,6 +118,26 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
     }
   };
 
+  const moveEvent = async (eventData: Event) => {
+    try {
+      const response = await fetch(`/api/events/${eventData.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(eventData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to move event');
+      }
+
+      await fetchEvents();
+      enqueueSnackbar(SUCCESS_MESSAGES.EVENT_MOVED, { variant: 'success' });
+    } catch (error) {
+      console.error('Error moving event:', error);
+      enqueueSnackbar(ERROR_MESSAGES.SAVE_FAILED, { variant: 'error' });
+    }
+  };
+
   async function init() {
     await fetchEvents();
     enqueueSnackbar(SUCCESS_MESSAGES.EVENTS_LOADED, { variant: 'info' });
@@ -127,5 +148,5 @@ export const useEventOperations = (editing: boolean, onSave?: () => void) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { events, fetchEvents, saveEvent, deleteEvent, createRepeatEvent };
+  return { events, fetchEvents, saveEvent, deleteEvent, createRepeatEvent, moveEvent };
 };
