@@ -90,3 +90,9 @@ export const waitForPageLoad = () => {
   });
   cy.wait(1000);
 };
+
+// 빈 상태로 시작하는 헬퍼 함수
+export const makeEmptySchedule = () => {
+  cy.resetToEmptyData();
+  waitForPageLoad();
+};
