@@ -11,9 +11,10 @@ export function getDaysInMonth(year: number, month: number): number {
  * 주어진 날짜가 속한 주의 모든 날짜를 반환합니다.
  */
 export function getWeekDates(date: Date): Date[] {
-  const day = date.getDay();
-  const diff = date.getDate() - day;
-  const sunday = new Date(date.setDate(diff));
+  const targetDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const day = targetDate.getDay();
+  const sunday = new Date(targetDate);
+  sunday.setDate(targetDate.getDate() - day);
   const weekDates = [];
   for (let i = 0; i < 7; i++) {
     const nextDate = new Date(sunday);
@@ -55,22 +56,28 @@ export function getEventsForDay(events: Event[], date: number): Event[] {
   return events.filter((event) => new Date(event.date).getDate() === date);
 }
 
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+const getStartOfWeek = (date: Date) => {
+  const normalized = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  normalized.setDate(normalized.getDate() - normalized.getDay());
+  return normalized;
+};
+
 export function formatWeek(targetDate: Date) {
-  const dayOfWeek = targetDate.getDay();
-  const diffToThursday = 4 - dayOfWeek;
-  const thursday = new Date(targetDate);
-  thursday.setDate(targetDate.getDate() + diffToThursday);
-
-  const year = thursday.getFullYear();
-  const month = thursday.getMonth() + 1;
-
-  const firstDayOfMonth = new Date(thursday.getFullYear(), thursday.getMonth(), 1);
-
-  const firstThursday = new Date(firstDayOfMonth);
-  firstThursday.setDate(1 + ((4 - firstDayOfMonth.getDay() + 7) % 7));
-
-  const weekNumber: number =
-    Math.floor((thursday.getTime() - firstThursday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+  const normalizedTarget = new Date(
+    targetDate.getFullYear(),
+    targetDate.getMonth(),
+    targetDate.getDate()
+  );
+  const firstDayOfMonth = new Date(normalizedTarget.getFullYear(), normalizedTarget.getMonth(), 1);
+  const firstWeekStart = getStartOfWeek(firstDayOfMonth);
+  const diffInWeeks = Math.floor(
+    (normalizedTarget.getTime() - firstWeekStart.getTime()) / (7 * MS_PER_DAY)
+  );
+  const weekNumber = diffInWeeks + 1;
+  const year = normalizedTarget.getFullYear();
+  const month = normalizedTarget.getMonth() + 1;
 
   return `${year}년 ${month}월 ${weekNumber}주`;
 }

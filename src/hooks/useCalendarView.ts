@@ -3,9 +3,21 @@ import { useEffect, useState } from 'react';
 import { fetchHolidays } from '../apis/fetchHolidays';
 
 export const useCalendarView = () => {
-  const [view, setView] = useState<'week' | 'month'>('month');
+  const [view, setViewState] = useState<'week' | 'month'>('month');
   const [currentDate, setCurrentDate] = useState(new Date());
   const [holidays, setHolidays] = useState<{ [key: string]: string }>({});
+
+  const alignToMonthStart = (date: Date) =>
+    new Date(date.getFullYear(), date.getMonth(), 1);
+
+  const setView = (nextView: 'week' | 'month') => {
+    setCurrentDate((prevDate) => {
+      const alignedDate = alignToMonthStart(prevDate);
+      return prevDate.getTime() === alignedDate.getTime() ? prevDate : alignedDate;
+    });
+
+    setViewState(nextView);
+  };
 
   const navigate = (direction: 'prev' | 'next') => {
     setCurrentDate((prevDate) => {
