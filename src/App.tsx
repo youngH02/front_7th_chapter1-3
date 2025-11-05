@@ -281,6 +281,7 @@ function App() {
           notifiedEvents={notifiedEvents}
           onNavigate={navigate}
           onEventMove={handleMoveEvent}
+          onDateSelect={(selectedDate) => setDate(formatDate(selectedDate))}
         />
         </Stack>
 

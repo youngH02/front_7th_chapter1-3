@@ -20,9 +20,16 @@ interface IProps {
   filteredEvents: Event[];
   notifiedEvents: string[];
   onEventMove: (event: Event, date: Date) => void;
+  onDateSelect?: (date: Date) => void;
 }
 
-const WeekView: FC<IProps> = ({ currentDate, filteredEvents, notifiedEvents, onEventMove }) => {
+const WeekView: FC<IProps> = ({
+  currentDate,
+  filteredEvents,
+  notifiedEvents,
+  onEventMove,
+  onDateSelect,
+}) => {
   const weekDates = getWeekDates(currentDate);
   const handleDragEnd = useCallback(
     ({ active, over }: DragEndEvent) => {
@@ -77,6 +84,7 @@ const WeekView: FC<IProps> = ({ currentDate, filteredEvents, notifiedEvents, onE
                       )}
                       notifiedEvents={notifiedEvents}
                       droppableId={droppableId}
+                      onDateSelect={onDateSelect}
                     />
                   );
                 })}

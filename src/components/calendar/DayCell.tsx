@@ -12,6 +12,7 @@ interface DayCellProps {
   notifiedEvents: string[];
   holiday?: string;
   droppableId: string;
+  onDateSelect?: (date: Date) => void;
 }
 
 const baseCellSx = {
@@ -30,6 +31,7 @@ export const DayCell: FC<DayCellProps> = ({
   notifiedEvents,
   holiday,
   droppableId,
+  onDateSelect,
 }) => {
   const { isOver, setNodeRef } = useDroppable({
     id: droppableId,
@@ -43,6 +45,15 @@ export const DayCell: FC<DayCellProps> = ({
 
   const isMonthView = view === 'month';
   const dayNumber = date.getDate();
+  const isEmpty = events.length === 0;
+
+  const handleClick = () => {
+    if (!isEmpty) {
+      return;
+    }
+
+    onDateSelect?.(date);
+  };
 
   return (
     <TableCell
@@ -57,7 +68,9 @@ export const DayCell: FC<DayCellProps> = ({
               outlineOffset: -1,
             }
           : {}),
+        ...(isEmpty ? { cursor: 'pointer' } : {}),
       }}
+      onClick={handleClick}
     >
       <Typography variant="body2" fontWeight="bold">
         {dayNumber}

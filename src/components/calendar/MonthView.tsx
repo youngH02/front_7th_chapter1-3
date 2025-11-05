@@ -21,9 +21,16 @@ interface IProps {
   filteredEvents: Event[];
   notifiedEvents: string[];
   onEventMove: (event: Event, date: Date) => void;
+  onDateSelect?: (date: Date) => void;
 }
 
-const MonthView: FC<IProps> = ({ currentDate, filteredEvents, notifiedEvents, onEventMove }) => {
+const MonthView: FC<IProps> = ({
+  currentDate,
+  filteredEvents,
+  notifiedEvents,
+  onEventMove,
+  onDateSelect,
+}) => {
   const weeks = getWeeksAtMonth(currentDate);
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -91,6 +98,7 @@ const MonthView: FC<IProps> = ({ currentDate, filteredEvents, notifiedEvents, on
                         events={eventsForDay}
                         notifiedEvents={notifiedEvents}
                         droppableId={droppableId}
+                        onDateSelect={onDateSelect}
                       />
                     );
                   })}
