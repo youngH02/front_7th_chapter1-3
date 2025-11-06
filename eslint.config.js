@@ -8,6 +8,7 @@ import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import storybookPlugin from 'eslint-plugin-storybook';
 import vitest from '@vitest/eslint-plugin';
+import cypress from 'eslint-plugin-cypress';
 import globals from 'globals';
 
 export default [
