@@ -18,7 +18,6 @@ const repeatTypeLabelMap: Record<string, string> = {
 
 const getRepeatTypeLabel = (type: string): string => repeatTypeLabelMap[type] ?? '';
 
-
 const EventDayInCell: FC<IProps> = ({ event, isNotified, isRepeating }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: event.id,
@@ -35,6 +34,7 @@ const EventDayInCell: FC<IProps> = ({ event, isNotified, isRepeating }) => {
       style={style}
       {...listeners}
       {...attributes}
+      data-testid={`event-${event.id}`}
       key={event.id}
       sx={{
         p: 0.5,
