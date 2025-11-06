@@ -94,3 +94,36 @@ it("currentDate가 '2025-03-01' 변경되면 3월 휴일 '삼일절'로 업데�
 
   expect(result.current.holidays).toEqual({ '2025-03-01': '삼일절' });
 });
+
+it('월간 뷰에서 주간 뷰로 전환 시 해당 월의 1일을 기준으로 설정된다', () => {
+  const { result } = renderHook(() => useCalendarView());
+
+  act(() => {
+    result.current.setCurrentDate(new Date('2025-11-15'));
+  });
+
+  act(() => {
+    result.current.setView('week');
+  });
+
+  assertDate(result.current.currentDate, new Date('2025-11-01'));
+});
+
+it('주간 뷰에서 월간 뷰로 전환 시 현재 주가 속한 월로 설정된다', () => {
+  const { result } = renderHook(() => useCalendarView());
+
+  act(() => {
+    result.current.setCurrentDate(new Date('2025-11-15'));
+    result.current.setView('week');
+  });
+
+  act(() => {
+    result.current.navigate('next');
+  });
+
+  act(() => {
+    result.current.setView('month');
+  });
+
+  assertDate(result.current.currentDate, new Date('2025-11-01'));
+});
