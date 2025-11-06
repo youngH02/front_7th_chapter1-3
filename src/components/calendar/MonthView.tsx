@@ -15,6 +15,7 @@ import { formatDate, formatMonth, getEventsForDay, getWeeksAtMonth } from '../..
 import type { Event } from '../../types';
 import DayCell from './DayCell';
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
+import { handleCalendarDragEnd } from '../../utils/dndHandlers';
 
 interface IProps {
   currentDate: Date;
@@ -36,24 +37,8 @@ const MonthView: FC<IProps> = ({
   const month = currentDate.getMonth();
 
   const handleDragEnd = useCallback(
-    ({ active, over }: DragEndEvent) => {
-      if (!active || !over) {
-        return;
-      }
-
-      const event = active.data.current?.event as Event | undefined;
-      const dropDate = over.data.current?.date as Date | undefined;
-
-      if (!event || !dropDate) {
-        return;
-      }
-
-      const originalDate = new Date(event.date);
-      if (originalDate.toDateString() === dropDate.toDateString()) {
-        return;
-      }
-
-      onEventMove(event, dropDate);
+    (event: DragEndEvent) => {
+      handleCalendarDragEnd(event, onEventMove);
     },
     [onEventMove]
   );

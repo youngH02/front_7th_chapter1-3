@@ -14,6 +14,7 @@ import { WEEK_DAYS } from '../../constants';
 import DayCell from './DayCell';
 import type { Event } from '../../types';
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
+import { handleCalendarDragEnd } from '../../utils/dndHandlers';
 
 interface IProps {
   currentDate: Date;
@@ -32,24 +33,8 @@ const WeekView: FC<IProps> = ({
 }) => {
   const weekDates = getWeekDates(currentDate);
   const handleDragEnd = useCallback(
-    ({ active, over }: DragEndEvent) => {
-      if (!active || !over) {
-        return;
-      }
-
-      const event = active.data.current?.event as Event | undefined;
-      const dropDate = over.data.current?.date as Date | undefined;
-
-      if (!event || !dropDate) {
-        return;
-      }
-
-      const originalDate = new Date(event.date);
-      if (originalDate.toDateString() === dropDate.toDateString()) {
-        return;
-      }
-
-      onEventMove(event, dropDate);
+    (event: DragEndEvent) => {
+      handleCalendarDragEnd(event, onEventMove);
     },
     [onEventMove]
   );
