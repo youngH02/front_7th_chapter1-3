@@ -65,10 +65,7 @@ function App() {
   } = useEventForm();
 
   const { events, saveEvent, deleteEvent, createRepeatEvent, fetchEvents, moveEvent } =
-    useEventOperations(
-      Boolean(editingEvent),
-      () => setEditingEvent(null)
-    );
+    useEventOperations(Boolean(editingEvent), () => setEditingEvent(null));
 
   const { handleRecurringEdit, handleRecurringDelete } = useRecurringEventOperations(
     events,
@@ -241,58 +238,62 @@ function App() {
   return (
     <Box sx={{ width: '100%', height: '100vh', margin: 'auto', p: 5 }}>
       <Stack direction="row" spacing={6} sx={{ height: '100%' }}>
-        <EventFormComponent
-          title={title}
-          setTitle={setTitle}
-          date={date}
-          setDate={setDate}
-          startTime={startTime}
-          endTime={endTime}
-          description={description}
-          setDescription={setDescription}
-          location={location}
-          setLocation={setLocation}
-          category={category}
-          setCategory={setCategory}
-          isRepeating={isRepeating}
-          setIsRepeating={setIsRepeating}
-          repeatType={repeatType}
-          setRepeatType={setRepeatType}
-          repeatInterval={repeatInterval}
-          setRepeatInterval={setRepeatInterval}
-          repeatEndDate={repeatEndDate}
-          setRepeatEndDate={setRepeatEndDate}
-          notificationTime={notificationTime}
-          setNotificationTime={setNotificationTime}
-          startTimeError={startTimeError}
-          endTimeError={endTimeError}
-          handleStartTimeChange={handleStartTimeChange}
-          handleEndTimeChange={handleEndTimeChange}
-          onSubmit={addOrUpdateEvent}
-          editingEvent={editingEvent}
-        />
+        <Box sx={{ width: '20%', minWidth: '300px' }}>
+          <EventFormComponent
+            title={title}
+            setTitle={setTitle}
+            date={date}
+            setDate={setDate}
+            startTime={startTime}
+            endTime={endTime}
+            description={description}
+            setDescription={setDescription}
+            location={location}
+            setLocation={setLocation}
+            category={category}
+            setCategory={setCategory}
+            isRepeating={isRepeating}
+            setIsRepeating={setIsRepeating}
+            repeatType={repeatType}
+            setRepeatType={setRepeatType}
+            repeatInterval={repeatInterval}
+            setRepeatInterval={setRepeatInterval}
+            repeatEndDate={repeatEndDate}
+            setRepeatEndDate={setRepeatEndDate}
+            notificationTime={notificationTime}
+            setNotificationTime={setNotificationTime}
+            startTimeError={startTimeError}
+            endTimeError={endTimeError}
+            handleStartTimeChange={handleStartTimeChange}
+            handleEndTimeChange={handleEndTimeChange}
+            onSubmit={addOrUpdateEvent}
+            editingEvent={editingEvent}
+          />
+        </Box>
 
         <Stack flex={1} spacing={5}>
           <CalendarView
             view={view}
             onViewChange={setView}
-          currentDate={currentDate}
-          filteredEvents={filteredEvents}
-          notifiedEvents={notifiedEvents}
-          onNavigate={navigate}
-          onEventMove={handleMoveEvent}
-          onDateSelect={(selectedDate) => setDate(formatDate(selectedDate))}
-        />
+            currentDate={currentDate}
+            filteredEvents={filteredEvents}
+            notifiedEvents={notifiedEvents}
+            onNavigate={navigate}
+            onEventMove={handleMoveEvent}
+            onDateSelect={(selectedDate) => setDate(formatDate(selectedDate))}
+          />
         </Stack>
 
-        <EventList
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          filteredEvents={filteredEvents}
-          notifiedEvents={notifiedEvents}
-          onEditEvent={handleEditEvent}
-          onDeleteEvent={handleDeleteEvent}
-        />
+        <Box sx={{ width: '30%', minWidth: '250px' }}>
+          <EventList
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            filteredEvents={filteredEvents}
+            notifiedEvents={notifiedEvents}
+            onEditEvent={handleEditEvent}
+            onDeleteEvent={handleDeleteEvent}
+          />
+        </Box>
       </Stack>
 
       <Dialog open={isOverlapDialogOpen} onClose={() => setIsOverlapDialogOpen(false)}>

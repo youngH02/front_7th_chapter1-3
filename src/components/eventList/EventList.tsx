@@ -56,7 +56,7 @@ const EventList: FC<EventListProps> = ({
     <Stack
       data-testid="event-list"
       spacing={2}
-      sx={{ width: '30%', height: '100%', overflowY: 'auto' }}
+      sx={{ width: '100%', height: '100%', overflowY: 'auto' }}
     >
       <FormControl fullWidth>
         <FormLabel htmlFor="search">일정 검색</FormLabel>
@@ -73,18 +73,25 @@ const EventList: FC<EventListProps> = ({
         <Typography>검색 결과가 없습니다.</Typography>
       ) : (
         filteredEvents.map((event) => (
-          <Box key={event.id} sx={{ border: 1, borderRadius: 2, p: 3, width: '100%' }}>
+          <Box
+            key={event.id}
+            sx={{
+              border: 1,
+              borderRadius: 2,
+              p: 3,
+              width: '100%',
+              boxSizing: 'border-box', // 패딩을 포함한 정확한 크기 계산
+            }}
+          >
             <Stack direction="row" justifyContent="space-between">
-              <Stack>
+              <Stack sx={{ minWidth: 0 }}>
                 <Stack direction="row" spacing={1} alignItems="center">
                   {notifiedEvents.includes(event.id) && <Notifications color="error" />}
                   {event.repeat.type !== 'none' && (
                     <Tooltip
                       title={`${event.repeat.interval}${getRepeatTypeLabel(
                         event.repeat.type
-                      )}마다 반복${
-                        event.repeat.endDate ? ` (종료: ${event.repeat.endDate})` : ''
-                      }`}
+                      )}마다 반복${event.repeat.endDate ? ` (종료: ${event.repeat.endDate})` : ''}`}
                     >
                       <Repeat fontSize="small" />
                     </Tooltip>
@@ -92,6 +99,7 @@ const EventList: FC<EventListProps> = ({
                   <Typography
                     fontWeight={notifiedEvents.includes(event.id) ? 'bold' : 'normal'}
                     color={notifiedEvents.includes(event.id) ? 'error' : 'inherit'}
+                    sx={{ wordBreak: 'break-word' }} // 긴 제목만 줄바꿈 처리
                   >
                     {event.title}
                   </Typography>
@@ -117,9 +125,8 @@ const EventList: FC<EventListProps> = ({
                 <Typography>
                   알림:{' '}
                   {
-                    notificationOptions.find(
-                      (option) => option.value === event.notificationTime
-                    )?.label
+                    notificationOptions.find((option) => option.value === event.notificationTime)
+                      ?.label
                   }
                 </Typography>
               </Stack>
