@@ -29,11 +29,12 @@
 const API_BASE_URL = Cypress.env('apiBaseUrl');
 // 초기 데이터
 
+const INITIAL_EVENT_DATE = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 형식
 const INITIAL_EVENTS = [
   {
     id: '1',
     title: '기존 회의',
-    date: '2025-11-07',
+    date: INITIAL_EVENT_DATE,
     startTime: '09:00',
     endTime: '10:00',
     description: '기존 팀 미팅',
