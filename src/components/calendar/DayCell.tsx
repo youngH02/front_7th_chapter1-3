@@ -2,8 +2,8 @@ import { useDroppable } from '@dnd-kit/core';
 import { TableCell, Typography } from '@mui/material';
 import { type FC } from 'react';
 
-import type { Event } from '../../types';
 import EventDayInCell from './EventDay';
+import type { Event } from '../../types';
 
 interface DayCellProps {
   date: Date | null;

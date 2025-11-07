@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
 import CalendarView from '../../components/calendar/CalendarView';
 import { Event } from '../../types';
 

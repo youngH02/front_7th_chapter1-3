@@ -1,5 +1,4 @@
-import { type FC, useCallback } from 'react';
-import { formatWeek, getWeekDates } from '../../utils/dateUtils';
+import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import {
   Stack,
   Table,
@@ -10,10 +9,12 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { WEEK_DAYS } from '../../constants';
+import { type FC, useCallback } from 'react';
+
 import DayCell from './DayCell';
+import { WEEK_DAYS } from '../../constants';
 import type { Event } from '../../types';
-import { DndContext, type DragEndEvent } from '@dnd-kit/core';
+import { formatWeek, getWeekDates } from '../../utils/dateUtils';
 import { handleCalendarDragEnd } from '../../utils/dndHandlers';
 
 interface IProps {

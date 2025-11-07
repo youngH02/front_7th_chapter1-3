@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
 import EventList from '../../components/eventList/EventList';
 import { Event } from '../../types';
 

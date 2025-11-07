@@ -9,12 +9,13 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { type FC } from 'react';
+import React, { type FC } from 'react';
+
 import { Event, RepeatType } from '../../types';
 
-interface EventListProps {
+interface IProps {
   searchTerm: string;
-  setSearchTerm: (term: string) => void;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   filteredEvents: Event[];
   notifiedEvents: string[];
   onEditEvent: (event: Event) => void;
@@ -44,7 +45,7 @@ const getRepeatTypeLabel = (type: RepeatType): string => {
   }
 };
 
-const EventList: FC<EventListProps> = ({
+const EventList: FC<IProps> = ({
   searchTerm,
   setSearchTerm,
   filteredEvents,

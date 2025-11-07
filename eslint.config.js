@@ -42,6 +42,8 @@ export default [
         // Custom globals
         Set: 'readonly',
         Map: 'readonly',
+        // React globals
+        React: 'readonly',
       },
     },
     settings: {
@@ -73,7 +75,17 @@ export default [
       ...typescriptPlugin.configs.recommended.rules,
 
       // ESLint rules
-      'no-unused-vars': 'warn',
+      'no-unused-vars': 'off', // TypeScript 규칙을 사용하므로 끄기
+
+      // TypeScript rules
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          args: 'none', // 함수 매개변수는 체크하지 않음
+          varsIgnorePattern: '^_', // _로 시작하는 변수는 무시
+          ignoreRestSiblings: true, // rest 매개변수 무시
+        },
+      ],
 
       // React rules
       'react/prop-types': 'off',
@@ -117,6 +129,15 @@ export default [
     rules: {
       ...(vitest.configs.recommended.rules ?? {}),
       'vitest/expect-expect': 'off',
+      // TypeScript 미사용 변수 규칙
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          args: 'none', // 함수 매개변수는 체크하지 않음
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
     },
     languageOptions: {
       globals: {
@@ -137,13 +158,42 @@ export default [
   {
     files: ['cypress/**/*.{cy,spec}.ts', 'cypress/**/*.ts'],
     plugins: { cypress },
-    ...cypress.configs.recommended,
     languageOptions: {
       globals: {
         ...globals.browser,
         cy: 'readonly',
         Cypress: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        expect: 'readonly',
+        assert: 'readonly',
+        context: 'readonly',
+        JQuery: 'readonly',
       },
+    },
+    rules: {
+      // 기본 ESLint 규칙들
+      'no-unused-vars': 'off',
+      'no-undef': 'off',
+
+      // TypeScript 규칙들
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          args: 'none', // 함수 매개변수는 체크하지 않음
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
+
+      // Cypress 특정 규칙들
+      'cypress/no-unnecessary-waiting': 'warn',
+      'cypress/unsafe-to-chain-command': 'warn',
     },
   },
 ];

@@ -1,7 +1,8 @@
-import { type FC } from 'react';
 import { useDraggable } from '@dnd-kit/core';
-import { Box, Stack, Tooltip, Typography } from '@mui/material';
 import { Notifications, Repeat } from '@mui/icons-material';
+import { Box, Stack, Tooltip, Typography } from '@mui/material';
+import { type FC } from 'react';
+
 import type { Event } from '../../types';
 interface IProps {
   event: Event;

@@ -7,8 +7,7 @@ export const useCalendarView = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [holidays, setHolidays] = useState<{ [key: string]: string }>({});
 
-  const alignToMonthStart = (date: Date) =>
-    new Date(date.getFullYear(), date.getMonth(), 1);
+  const alignToMonthStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), 1);
 
   const setView = (nextView: 'week' | 'month') => {
     setCurrentDate((prevDate) => {

@@ -12,32 +12,33 @@ import {
   Typography,
 } from '@mui/material';
 import { type FC } from 'react';
+
 import { Event, RepeatType } from '../../types';
 
 interface EventFormProps {
   // Form state
   title: string;
-  setTitle: (title: string) => void;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
   date: string;
-  setDate: (date: string) => void;
+  setDate: React.Dispatch<React.SetStateAction<string>>;
   startTime: string;
   endTime: string;
   description: string;
-  setDescription: (description: string) => void;
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
   location: string;
-  setLocation: (location: string) => void;
+  setLocation: React.Dispatch<React.SetStateAction<string>>;
   category: string;
-  setCategory: (category: string) => void;
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
   isRepeating: boolean;
-  setIsRepeating: (isRepeating: boolean) => void;
+  setIsRepeating: React.Dispatch<React.SetStateAction<boolean>>;
   repeatType: RepeatType;
-  setRepeatType: (repeatType: RepeatType) => void;
+  setRepeatType: React.Dispatch<React.SetStateAction<RepeatType>>;
   repeatInterval: number;
-  setRepeatInterval: (interval: number) => void;
+  setRepeatInterval: React.Dispatch<React.SetStateAction<number>>;
   repeatEndDate: string;
-  setRepeatEndDate: (endDate: string) => void;
+  setRepeatEndDate: React.Dispatch<React.SetStateAction<string>>;
   notificationTime: number;
-  setNotificationTime: (time: number) => void;
+  setNotificationTime: React.Dispatch<React.SetStateAction<number>>;
 
   // Validation
   startTimeError: string | null;

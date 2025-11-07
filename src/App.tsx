@@ -16,9 +16,10 @@ import {
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 
-import EventFormComponent from './components/eventForm/EventForm.js';
 import CalendarView from './components/calendar/CalendarView.tsx';
 import RecurringEventDialog from './components/dialogs/RecurringEventDialog.js';
+import EventFormComponent from './components/eventForm/EventForm.js';
+import EventList from './components/eventList/EventList.tsx';
 import { useCalendarView } from './hooks/useCalendarView.ts';
 import { useEventForm } from './hooks/useEventForm.ts';
 import { useEventOperations } from './hooks/useEventOperations.ts';
@@ -26,9 +27,8 @@ import { useNotifications } from './hooks/useNotifications.ts';
 import { useRecurringEventOperations } from './hooks/useRecurringEventOperations.ts';
 import { useSearch } from './hooks/useSearch.ts';
 import { Event, EventForm } from './types.ts';
-import { findOverlappingEvents } from './utils/eventOverlap.ts';
-import EventList from './components/eventList/EventList.tsx';
 import { formatDate } from './utils/dateUtils.ts';
+import { findOverlappingEvents } from './utils/eventOverlap.ts';
 
 function App() {
   const {
@@ -280,7 +280,7 @@ function App() {
             notifiedEvents={notifiedEvents}
             onNavigate={navigate}
             onEventMove={handleMoveEvent}
-            onDateSelect={(selectedDate) => setDate(formatDate(selectedDate))}
+            onDateSelect={(selectedDate: Date) => setDate(formatDate(selectedDate))}
           />
         </Stack>
 

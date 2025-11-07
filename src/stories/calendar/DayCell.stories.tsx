@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { DndContext } from '@dnd-kit/core';
 import { Table, TableRow } from '@mui/material';
+import type { Meta, StoryObj } from '@storybook/react';
+
 import { DayCell } from '../../components/calendar/DayCell';
 import { Event } from '../../types';
 

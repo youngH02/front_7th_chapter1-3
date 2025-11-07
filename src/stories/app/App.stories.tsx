@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SnackbarProvider } from 'notistack';
+
 import App from '../../App';
 
 // App을 감싸는 Provider

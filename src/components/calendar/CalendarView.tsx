@@ -1,13 +1,14 @@
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { IconButton, MenuItem, Select, Stack, Typography } from '@mui/material';
 import { type FC } from 'react';
-import WeekView from './WeekView';
+
 import MonthView from './MonthView';
+import WeekView from './WeekView';
 import type { Event } from '../../types';
 
 interface IProps {
   view: 'week' | 'month';
-  onViewChange: (view: 'week' | 'month') => void;
+  onViewChange: (date: 'week' | 'month') => void;
   onNavigate: (direction: 'prev' | 'next') => void;
   currentDate: Date;
   filteredEvents: Event[];

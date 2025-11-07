@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+
 import EventForm from '../../components/eventForm/EventForm';
 import { Event, RepeatType } from '../../types';
 
@@ -42,8 +43,8 @@ const EventFormWrapper = ({
 }) => {
   const [title, setTitle] = useState(editingEvent?.title || '');
   const [date, setDate] = useState(editingEvent?.date || '2025-11-20');
-  const [startTime, setStartTime] = useState(editingEvent?.startTime || '09:00');
-  const [endTime, setEndTime] = useState(editingEvent?.endTime || '10:00');
+  const [startTime] = useState(editingEvent?.startTime || '09:00');
+  const [endTime] = useState(editingEvent?.endTime || '10:00');
   const [description, setDescription] = useState(editingEvent?.description || '');
   const [location, setLocation] = useState(editingEvent?.location || '');
   const [category, setCategory] = useState(editingEvent?.category || '업무');
@@ -131,8 +132,8 @@ export const NewEventWithRepeat: Story = {
     const EventFormWithRepeat = () => {
       const [title, setTitle] = useState('매일 운동');
       const [date, setDate] = useState('2025-11-20');
-      const [startTime, setStartTime] = useState('07:00');
-      const [endTime, setEndTime] = useState('08:00');
+      const [startTime] = useState('07:00');
+      const [endTime] = useState('08:00');
       const [description, setDescription] = useState('아침 운동 루틴');
       const [location, setLocation] = useState('헬스장');
       const [category, setCategory] = useState('개인');
@@ -204,8 +205,8 @@ export const FilledForm: Story = {
     const FilledEventForm = () => {
       const [title, setTitle] = useState('중요한 프레젠테이션');
       const [date, setDate] = useState('2025-11-25');
-      const [startTime, setStartTime] = useState('14:00');
-      const [endTime, setEndTime] = useState('16:00');
+      const [startTime] = useState('14:00');
+      const [endTime] = useState('16:00');
       const [description, setDescription] = useState('새 제품 런칭 프레젠테이션 및 Q&A 세션');
       const [location, setLocation] = useState('대회의실 (3층)');
       const [category, setCategory] = useState('업무');
@@ -260,8 +261,8 @@ export const WeeklyRepeatEvent: Story = {
     const WeeklyEventForm = () => {
       const [title, setTitle] = useState('팀 회의');
       const [date, setDate] = useState('2025-11-20');
-      const [startTime, setStartTime] = useState('10:00');
-      const [endTime, setEndTime] = useState('11:00');
+      const [startTime] = useState('10:00');
+      const [endTime] = useState('11:00');
       const [description, setDescription] = useState('주간 진행 상황 점검');
       const [location, setLocation] = useState('회의실 B');
       const [category, setCategory] = useState('업무');
@@ -316,8 +317,8 @@ export const PersonalCategoryEvent: Story = {
     const PersonalEventForm = () => {
       const [title, setTitle] = useState('치과 예약');
       const [date, setDate] = useState('2025-11-22');
-      const [startTime, setStartTime] = useState('15:30');
-      const [endTime, setEndTime] = useState('16:30');
+      const [startTime] = useState('15:30');
+      const [endTime] = useState('16:30');
       const [description, setDescription] = useState('정기 검진 및 스케일링');
       const [location, setLocation] = useState('서울치과의원');
       const [category, setCategory] = useState('개인');
