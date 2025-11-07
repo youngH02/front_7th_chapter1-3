@@ -8,3 +8,7 @@ echo "Successfully ran lint-staged"
 echo "Running tests..."
 pnpm test
 echo "All tests passed successfully"
+
+echo "Running Chromatic..."
+pnpm chromatic:ci
+echo "Chromatic run completed successfully"
