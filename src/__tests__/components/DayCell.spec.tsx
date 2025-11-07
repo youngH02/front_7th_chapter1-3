@@ -1,7 +1,7 @@
-import { describe, expect, it, vi } from 'vitest';
+import { DndContext } from '@dnd-kit/core';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DndContext } from '@dnd-kit/core';
+import { describe, expect, it, vi } from 'vitest';
 
 import DayCell from '../../components/calendar/DayCell.tsx';
 import type { Event } from '../../types.ts';
@@ -66,4 +66,3 @@ describe('DayCell', () => {
     expect(handleSelect).not.toHaveBeenCalled();
   });
 });
-
