@@ -114,10 +114,11 @@ describe('일정 중복 처리', () => {
     });
 
     it('반복 일정 생성시 충돌을 감지하지 않는다', () => {
+      cy.resetToEmptyData();
       // 기존 단일 일정 생성
       saveSchedule({
         title: '기존 단일 일정',
-        date: '2025-11-06',
+        date: '2025-11-21',
         startTime: '09:00',
         endTime: '10:00',
         description: '기존 일정',
@@ -130,7 +131,7 @@ describe('일정 중복 처리', () => {
       // 겹치는 시간대에 반복 일정 생성 시도 (09:30-10:30 for 3 days)
       saveSchedule({
         title: '새 반복 일정',
-        date: '2025-11-06',
+        date: '2025-11-21',
         startTime: '09:30',
         endTime: '10:30',
         description: '반복 일정',
@@ -139,7 +140,7 @@ describe('일정 중복 처리', () => {
         repeat: {
           type: 'daily',
           interval: 1,
-          endDate: '2025-11-08',
+          endDate: '2025-11-04',
         },
         notificationTime: 0,
       });
