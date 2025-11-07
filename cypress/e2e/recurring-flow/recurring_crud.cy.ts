@@ -202,7 +202,6 @@ describe('반복 일정 CRUD 워크플로우', () => {
       cy.get('#description').type('단일 수정된 설명');
 
       cy.get('[data-testid="event-submit-button"]').click();
-      cy.wait(1000);
 
       // 결과 확인: 수정된 일정과 원본 일정이 모두 존재해야 함
       cy.get('[data-testid="event-list"]').within(() => {
@@ -246,7 +245,6 @@ describe('반복 일정 CRUD 워크플로우', () => {
       cy.get('#description').type('전체 변경된 설명');
 
       cy.get('[data-testid="event-submit-button"]').click();
-      cy.wait(1000);
 
       // 결과 확인: 모든 반복 일정이 변경되어야 함
       cy.get('[data-testid="event-list"] > div').then(($boxes) => {
@@ -358,7 +356,6 @@ describe('반복 일정 CRUD 워크플로우', () => {
       cy.contains('해당 일정만 삭제하시겠어요?').should('be.visible');
 
       cy.contains('예').click();
-      cy.wait(1000);
 
       // 알림 메시지 확인
       cy.contains('일정이 삭제되었습니다', { timeout: 5000 }).should('be.visible');
@@ -388,7 +385,6 @@ describe('반복 일정 CRUD 워크플로우', () => {
       cy.contains('해당 일정만 삭제하시겠어요?').should('be.visible');
 
       cy.contains('아니오').click();
-      cy.wait(1000);
 
       // 모든 일정이 삭제되었는지 확인
       cy.get('[data-testid="event-list"]').within(() => {
@@ -622,7 +618,6 @@ describe('반복 일정 CRUD 워크플로우', () => {
       cy.get('#title').type('수정된 회의');
 
       cy.get('[data-testid="event-submit-button"]').click();
-      cy.wait(1000);
 
       // 결과 확인: 수정된 일정이 단일 일정으로 변경되고 나머지는 그대로
       cy.get('[data-testid="event-list"]').within(() => {

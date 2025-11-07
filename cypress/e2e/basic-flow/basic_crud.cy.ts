@@ -1,19 +1,17 @@
 import { navigateCalendar, saveSchedule, waitForPageLoad } from '../../support/utils';
 
-// 검색 
+// 검색
 const searchEvents = (searchTerm: string) => {
   cy.get('#search').scrollIntoView();
   cy.get('#search').clear();
   cy.get('#search').type(searchTerm);
-  cy.wait(500); // 검색 처리 대기
 };
 
-// 뷰 선택 
+// 뷰 선택
 const selectView = (viewType: 'week' | 'month') => {
   cy.get('[aria-label="뷰 타입 선택"]').scrollIntoView();
   cy.get('[aria-label="뷰 타입 선택"]').click();
   cy.get(`[aria-label="${viewType}-option"]`).click();
-  cy.wait(1000); 
 };
 
 describe('기본 일정 관리 워크플로우', () => {
@@ -27,7 +25,6 @@ describe('기본 일정 관리 워크플로우', () => {
       // 먼저 검색어로 결과를 비움
       searchEvents('존재하지않는일정');
 
-
       selectView('week');
 
       // 이벤트 리스트에서 검색 결과 확인
@@ -39,8 +36,9 @@ describe('기본 일정 관리 워크플로우', () => {
 
     it('주별 뷰 선택 후 해당 일자에 일정이 존재한다면 해당 일정이 정확히 표시된다', () => {
       selectView('week');
+      navigateCalendar('next', 1); // 11월에서 12월로 이동
 
-      // 초기 데이터인 "기존 회의" 확인 
+      // 초기 데이터인 "기존 회의" 확인
       cy.get('[data-testid="event-list"]').scrollIntoView();
       cy.get('[data-testid="event-list"]').within(() => {
         cy.contains('기존 회의').should('exist');
@@ -123,7 +121,6 @@ describe('기본 일정 관리 워크플로우', () => {
       cy.get('#description').type('회의 내용 변경');
 
       cy.get('[data-testid="event-submit-button"]').click();
-      cy.wait(500); 
 
       // 수정 결과 확인
       cy.get('[data-testid="event-list"]').scrollIntoView();
@@ -144,7 +141,6 @@ describe('기본 일정 관리 워크플로우', () => {
 
       cy.get('[aria-label="Delete event"]').first().scrollIntoView();
       cy.get('[aria-label="Delete event"]').first().click();
-      cy.wait(500);
 
       // 삭제 결과 확인
       cy.get('[data-testid="event-list"]').scrollIntoView();

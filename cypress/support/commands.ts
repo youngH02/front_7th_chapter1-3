@@ -29,7 +29,8 @@
 const API_BASE_URL = Cypress.env('apiBaseUrl');
 // 초기 데이터
 
-const INITIAL_EVENT_DATE = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 형식
+// const INITIAL_EVENT_DATE = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 형식
+const INITIAL_EVENT_DATE = '2025-11-06';
 const INITIAL_EVENTS = [
   {
     id: '1',
@@ -45,22 +46,22 @@ const INITIAL_EVENTS = [
   },
 ];
 
-Cypress.Commands.add('resetToEmptyData' as any, () => {
+Cypress.Commands.add('resetToEmptyData', () => {
   cy.request('GET', `${API_BASE_URL}/api/events`).then((response) => {
     const events = response.body.events || [];
 
-    events.forEach((event: any) => {
+    events.forEach((event: { id: string }) => {
       cy.request('DELETE', `${API_BASE_URL}/api/events/${event.id}`);
     });
   });
 });
 
-Cypress.Commands.add('resetToInitialData' as any, () => {
+Cypress.Commands.add('resetToInitialData', () => {
   // 모든 이벤트 삭제
   cy.request('GET', `${API_BASE_URL}/api/events`).then((response) => {
     const events = response.body.events || [];
 
-    events.forEach((event: any) => {
+    events.forEach((event: { id: string }) => {
       cy.request('DELETE', `${API_BASE_URL}/api/events/${event.id}`);
     });
   });

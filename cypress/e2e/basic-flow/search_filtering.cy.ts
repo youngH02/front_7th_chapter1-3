@@ -5,13 +5,11 @@ const searchEvents = (searchTerm: string) => {
   cy.get('#search').scrollIntoView();
   cy.get('#search').clear();
   cy.get('#search').type(searchTerm);
-  cy.wait(500); 
 };
 
 const clearSearch = () => {
   cy.get('#search').scrollIntoView();
   cy.get('#search').clear();
-  cy.wait(500); 
 };
 
 describe('검색 및 필터링 기능', () => {

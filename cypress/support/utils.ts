@@ -40,6 +40,7 @@ export const saveSchedule = (form: EventForm) => {
   // 알림 시간 설정
   if (notificationTime > 0) {
     cy.get('#notification').scrollIntoView().click();
+
     cy.get('[role="listbox"]').within(() => {
       cy.get(`[data-value="${notificationTime}"]`).click();
     });
@@ -48,13 +49,12 @@ export const saveSchedule = (form: EventForm) => {
   if (repeat.type !== 'none') {
     // 반복 일정 체크박스
     cy.get('input[type="checkbox"]').first().check();
-    cy.wait(500);
 
     cy.get('[aria-label="반복 유형"]').click();
     cy.get(`[aria-label="${repeat.type}-option"]`).click();
 
-    cy.get('#repeat-interval').click(); 
-    cy.get('#repeat-interval').type('{selectall}'); 
+    cy.get('#repeat-interval').click();
+    cy.get('#repeat-interval').type('{selectall}');
     cy.get('#repeat-interval').type(String(repeat.interval), { delay: 200 });
 
     if (repeat.endDate) {
@@ -64,7 +64,6 @@ export const saveSchedule = (form: EventForm) => {
 
   cy.get('button').contains('일정 추가').first().scrollIntoView();
   cy.get('button').contains('일정 추가').first().click();
-  cy.wait(1000); // 일정 생성 대기
 };
 
 export const navigateCalendar = (direction: 'prev' | 'next', times: number = 1) => {
@@ -72,7 +71,6 @@ export const navigateCalendar = (direction: 'prev' | 'next', times: number = 1) 
   for (let i = 0; i < times; i++) {
     cy.get(`[aria-label="${buttonLabel}"]`).scrollIntoView();
     cy.get(`[aria-label="${buttonLabel}"]`).click();
-    cy.wait(200);
   }
 };
 
@@ -88,7 +86,6 @@ export const waitForPageLoad = () => {
       cy.get('[data-testid="event-list"]', { timeout: 10000 }).should('be.visible');
     }
   });
-  cy.wait(1000);
 };
 
 // 빈 상태로 시작하는 헬퍼 함수

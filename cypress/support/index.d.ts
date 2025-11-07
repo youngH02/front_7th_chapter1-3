@@ -1,8 +1,8 @@
 declare global {
   namespace Cypress {
     interface Chainable {
-      resetToEmptyData(): Chainable<any>;
-      resetToInitialData(): Chainable<any>;
+      resetToEmptyData(): Chainable<void>;
+      resetToInitialData(): Chainable<void>;
     }
   }
 }
